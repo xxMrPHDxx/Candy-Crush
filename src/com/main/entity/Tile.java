@@ -19,6 +19,18 @@ public abstract class Tile {
 		return col;
 	}
 	
+	public void setCandy(Candy c) {
+		this.candy = c;
+	}
+	
+	public void swap(Tile other) {
+		Candy c1 = Candy.copy(candy);
+		Candy c2 = Candy.copy(other.candy);
+		
+		candy = c2;
+		other.candy = c1;
+	}
+	
 	public static Tile copy(Tile t) {
 		return new OccupiedTile(t.getCandy(),t.getRow(),t.getCol());
 	}

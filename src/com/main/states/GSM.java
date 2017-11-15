@@ -14,7 +14,6 @@ public class GSM {
 	
 	public void push(State s) {
 		states.push(s);
-		states.peek().init();
 	}
 	
 	public void pop() {
@@ -24,10 +23,6 @@ public class GSM {
 	public void set(State s) {
 		states.push(s);
 		states.pop();
-	}
-	
-	private void init() {
-		states.peek().init();
 	}
 	
 	public void update(float dt) {

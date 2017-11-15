@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 
 public abstract class State {
 
-	public abstract void init();
 	public abstract void update(float dt);
 	public abstract void render(Graphics2D g);
 	public abstract void keyPressed(int key);
