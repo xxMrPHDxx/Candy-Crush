@@ -18,10 +18,11 @@ public class ImageFactory {
 	
 	public void addImage(String key,String path) {
 		try {
-			File file = new File(path);
-			BufferedImage image = ImageIO.read(file);
-			images.put(key, image);
-		} catch (IOException e) {
+			File t = new File(path);
+			System.out.println(t.getAbsolutePath());
+			//BufferedImage image = ImageIO.read();
+			//images.put(key, image);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

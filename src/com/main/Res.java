@@ -29,4 +29,8 @@ public class Res {
 		return res.get(key);
 	}
 	
+	public BufferedImage getImage(String key) {
+		return (BufferedImage) get(key);
+	}
+	
 }

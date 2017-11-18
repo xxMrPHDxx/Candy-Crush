@@ -19,6 +19,7 @@ import com.main.states.PlayState;
 public class Game extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	public static final int WIDTH = 640,HEIGHT = 640;
 	public static final String TITLE = "Candy Crush";
 	
 	// Resources
@@ -66,6 +67,7 @@ public class Game extends JFrame {
 			requestFocus();
 		}
 		
+		@Override
 		public void addNotify() {
 			super.addNotify();
 			if(thread == null) {
@@ -88,6 +90,7 @@ public class Game extends JFrame {
 			running = true;
 		}
 
+		@Override
 		public void run() {
 			init();
 			
@@ -138,6 +141,7 @@ public class Game extends JFrame {
 		}
 
 		public void keyPressed(KeyEvent e) {
+			System.out.println((e.getKeyCode()==KeyEvent.VK_Z) + " is pressed!");
 			gsm.keyPressed(e.getKeyCode());
 		}
 
@@ -145,26 +149,32 @@ public class Game extends JFrame {
 			gsm.keyReleased(e.getKeyCode());
 		}
 
+		@Override
 		public void keyTyped(KeyEvent e) {
 			
 		}
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			gsm.mousePressed(e);
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			gsm.mouseReleased(e);
 		}

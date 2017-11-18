@@ -27,6 +27,10 @@ public class Candy {
 		public boolean equals(Type other) {
 			return (this.name() == other.name() && this.toString() == other.toString());
 		}
+		
+		public String toString() {
+			return this.name();
+		}
 	}
 	
 	private Type type;
@@ -50,6 +54,10 @@ public class Candy {
 	
 	public static Candy copy(Candy c) {
 		return new Candy(c.type);
+	}
+	
+	public String toString() {
+		return this.type.toString();
 	}
 	
 }

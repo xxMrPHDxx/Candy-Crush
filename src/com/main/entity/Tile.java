@@ -4,6 +4,7 @@ public abstract class Tile {
 
 	protected Candy candy;
 	protected int row,col;
+	public final int size = 64;
 	
 	private Tile(Candy candy,int row,int col) {
 		this.candy = candy;
@@ -11,28 +12,38 @@ public abstract class Tile {
 		this.col = col;
 	}
 	
-	public int getRow() {
-		return row;
+	public double distance(Tile other) {
+		return Math.sqrt(Math.pow(this.row - other.row,2) + Math.pow(this.col - other.col,2));
 	}
 	
-	public int getCol() {
-		return col;
+	public void setCandy(Candy candy) {
+		this.candy = candy;
 	}
 	
-	public void setCandy(Candy c) {
-		this.candy = c;
+	public boolean canSwap(Tile other) {
+		int dr = Math.abs(row - other.row);
+		int dc = Math.abs(col - other.col);
+		return (dr == 1 && dc == 0) || (dc == 1 && dr == 0);
 	}
 	
 	public void swap(Tile other) {
-		Candy c1 = Candy.copy(candy);
-		Candy c2 = Candy.copy(other.candy);
-		
-		candy = c2;
-		other.candy = c1;
+		Tile temp = Tile.copy(this);
+		this.row = other.row;
+		this.col = other.col;
+		this.candy = other.candy;
+		other.row = temp.row;
+		other.col = temp.col;
+		other.candy = temp.candy;
+	}
+	
+	public void pop() {
+		this.candy = null;
 	}
 	
 	public static Tile copy(Tile t) {
-		return new OccupiedTile(t.getCandy(),t.getRow(),t.getCol());
+		if(!t.isEmpty())
+			return new OccupiedTile(t.candy,t.row,t.col);
+		else return new EmptyTile(t.row,t.col);
 	}
 
 	public abstract boolean isEmpty();
@@ -52,6 +63,10 @@ public abstract class Tile {
 			return null;
 		}
 		
+		public String toString() {
+			return "Empty(" + row + "," + col + ")";
+		}
+		
 	}
 	
 	public static final class OccupiedTile extends Tile {
@@ -66,6 +81,11 @@ public abstract class Tile {
 		
 		public Candy getCandy() {
 			return candy;
+		}
+		
+		public String toString() {
+			return candy.toString() + "(" + row + "," + col + ")";
+			//return "Tile(" + row + "," + col + ") : " + candy.toString();
 		}
 		
 	}
