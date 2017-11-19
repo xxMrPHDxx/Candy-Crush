@@ -10,7 +10,7 @@ public abstract class State {
 	protected final Res Res = new Res();
 	
 	public abstract void update(float dt);
-	public abstract void render(Graphics2D g);
+	public abstract void draw(Graphics2D g);
 	public abstract void keyPressed(int key);
 	public abstract void keyReleased(int key);
 	public abstract void mousePressed(MouseEvent e);

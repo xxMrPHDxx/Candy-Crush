@@ -1,7 +1,11 @@
 package com.main.entity;
 
+import java.awt.image.BufferedImage;
+
 public abstract class Tile {
 
+	private static final BufferedImage EMPTY_SPRITE = new BufferedImage(64,64,BufferedImage.TYPE_INT_RGB);
+	
 	protected Candy candy;
 	protected int row,col;
 	public final int size = 64;
@@ -20,24 +24,25 @@ public abstract class Tile {
 		this.candy = candy;
 	}
 	
-	public boolean canSwap(Tile other) {
-		int dr = Math.abs(row - other.row);
-		int dc = Math.abs(col - other.col);
-		return (dr == 1 && dc == 0) || (dc == 1 && dr == 0);
-	}
-	
 	public void swap(Tile other) {
 		Tile temp = Tile.copy(this);
-		this.row = other.row;
-		this.col = other.col;
 		this.candy = other.candy;
-		other.row = temp.row;
-		other.col = temp.col;
 		other.candy = temp.candy;
 	}
 	
 	public void pop() {
 		this.candy = null;
+	}
+	
+	public boolean canSwap(Tile other) {
+		if(this.candy.equals(other.candy)) return false;
+		int dr = (int)Math.abs(row - other.row);
+		int dc = (int)Math.abs(col - other.col);
+		return (dr == 1 && dc == 0) || (dc == 1 && dr == 0);
+	}
+	
+	public BufferedImage getSprite() {
+		return (isEmpty()) ? EMPTY_SPRITE : this.candy.getSprite();
 	}
 	
 	public static Tile copy(Tile t) {
@@ -84,7 +89,7 @@ public abstract class Tile {
 		}
 		
 		public String toString() {
-			return candy.toString() + "(" + row + "," + col + ")";
+			return (candy == null) ? "Nothing" : candy.toString() + "(" + row + "," + col + ")";
 			//return "Tile(" + row + "," + col + ") : " + candy.toString();
 		}
 		

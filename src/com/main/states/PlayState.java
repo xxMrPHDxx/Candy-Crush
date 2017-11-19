@@ -13,8 +13,6 @@ import com.main.math.Vector;
 
 public class PlayState extends State {
 	
-	private final int tileSize = 64;
-	
 	private Grid grid;
 	
 	private BufferedImage candy = Res.getImage("candies");
@@ -23,26 +21,25 @@ public class PlayState extends State {
 	private Vector v1;
 	
 	public PlayState() {
-		grid = new Grid(Game.WIDTH / tileSize,Game.HEIGHT / tileSize);
+		grid = new Grid(8,8);
 	}
 	
 	public void update(float dt) {
 		grid.update(dt);
 	}
 
-	public void render(Graphics2D g) {
+	public void draw(Graphics2D g) {
 		grid.draw(g);
 	}
 
 	public void mousePressed(MouseEvent e) {
 		v1 = new Vector(e.getX(),e.getY());
 		if(tile1 == null && tile2 == null) {
-			tile1 = grid.getTile(v1.y / tileSize,v1.x / tileSize);
+			tile1 = grid.getTile(v1.y / 64,v1.x / 64);
 		}else if(tile1 != null) {
-			tile2 = grid.getTile(v1.y / tileSize,v1.x / tileSize);
+			tile2 = grid.getTile(v1.y / 64,v1.x / 64);
 			if(tile1.canSwap(tile2)) {
 				tile1.swap(tile2);
-				System.out.println("Swapping " + tile1 + " with " + tile2);
 			}
 			tile1 = tile2 = null;
 		}
@@ -53,9 +50,7 @@ public class PlayState extends State {
 	}
 
 	public void keyPressed(int key) {
-		if(key == KeyEvent.VK_Z) {
-			grid.pop();
-		}
+		
 	}
 
 	public void keyReleased(int key) {}

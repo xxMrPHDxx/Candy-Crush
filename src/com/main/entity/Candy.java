@@ -56,6 +56,10 @@ public class Candy {
 		return new Candy(c.type);
 	}
 	
+	public boolean equals(Candy other) {
+		return (type.equals(other.type));
+	}
+	
 	public String toString() {
 		return this.type.toString();
 	}

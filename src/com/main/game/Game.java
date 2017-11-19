@@ -67,7 +67,6 @@ public class Game extends JFrame {
 			requestFocus();
 		}
 		
-		@Override
 		public void addNotify() {
 			super.addNotify();
 			if(thread == null) {
@@ -90,7 +89,6 @@ public class Game extends JFrame {
 			running = true;
 		}
 
-		@Override
 		public void run() {
 			init();
 			
@@ -129,7 +127,7 @@ public class Game extends JFrame {
 			
 			// DRAW START
 			
-			gsm.render(g);
+			gsm.draw(g);
 			
 			// DRAW END
 		}

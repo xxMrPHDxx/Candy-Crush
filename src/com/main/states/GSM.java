@@ -29,8 +29,8 @@ public class GSM {
 		states.peek().update(dt);
 	}
 	
-	public void render(Graphics2D g) {
-		states.peek().render(g);
+	public void draw(Graphics2D g) {
+		states.peek().draw(g);
 	}
 	
 	public void keyPressed(int key) {
