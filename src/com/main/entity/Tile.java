@@ -30,10 +30,6 @@ public abstract class Tile {
 		other.candy = temp.candy;
 	}
 	
-	public void pop() {
-		this.candy = null;
-	}
-	
 	public boolean canSwap(Tile other) {
 		if(this.candy.equals(other.candy)) return false;
 		int dr = (int)Math.abs(row - other.row);

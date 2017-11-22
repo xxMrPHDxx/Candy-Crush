@@ -1,18 +1,18 @@
 package com.main.entity;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.main.entity.Tile.EmptyTile;
 import com.main.entity.Tile.OccupiedTile;
 
 public class Grid {
 
 	private final Tile[][] tiles;
 	private final int row,col;
+	
+	private Set<Tile> matches;
 	
 	public Grid(final int row,final int col) {
 		this.row = row;
@@ -21,19 +21,20 @@ public class Grid {
 		
 		for(int i=0;i<row;i++) {
 			for(int j=0;j<col;j++) {
-				this.tiles[i][j] = new OccupiedTile((Math.random() < 0.2) ? new Candy(Candy.Type.Circle) : Candy.random(),i,j);
+				this.tiles[i][j] = new OccupiedTile(Candy.random(),i,j);
 				
 				//if(i == 2 && j == 2) this.tiles[i][j] = new EmptyTile(i,j);
 			}
 		}
+		
+		matches = new HashSet<>();
 	}
 	
 	public Tile getTile(int row,int col) {
 		return tiles[row][col];
 	}
 	
-	private void check() {
-		Map<Candy,ArrayList<Tile>> matches = new HashMap<>();
+	private void findMatches() {
 		ArrayList<Tile> match = new ArrayList<>();
 
 		// Find all horizontal matches
@@ -47,19 +48,15 @@ public class Grid {
 				if(match.size() == 0 || match.get(0).getCandy().equals(candy)) {
 					match.add(current);
 				}else if(!match.get(0).getCandy().getType().equals(candy.getType())) {
-					if(match.size() >= 3) {
-						matches.put(candy, match);
-						System.out.println(match);
-					}
 					match.clear();
 					match.add(current);
 				}
+				
+				if(match.size() >= 3) {
+					matches.addAll(match);
+				}
+				
 				j++;
-			}
-			if(j == 7 && match.size() >= 3) {
-				match.add(tiles[i][j]);
-				matches.put(tiles[i][j].getCandy(), match);
-				//System.out.println(match);
 			}
 		}
 
@@ -74,24 +71,42 @@ public class Grid {
 				if(match.size() == 0 || match.get(0).getCandy().equals(candy)) {
 					match.add(current);
 				}else if(!match.get(0).getCandy().getType().equals(candy.getType())) {
-					if(match.size() >= 3) {
-						matches.put(candy, match);
-						//System.out.println(match);
-					}
 					match.clear();
 					match.add(current);
 				}
+				
+				if(match.size() >= 3) {
+					matches.addAll(match);
+				}
+				
 				i++;
-			}
-			if(i == 7 && match.size() >= 3) {
-				matches.put(tiles[i][j].getCandy(), match);
-				//System.out.println(match);
 			}
 		}
 	}
 	
+	public void pop(Tile tile) {
+		int row = tile.row;
+		int col = tile.col;
+		
+		while(row > 0) {
+			Tile above = tiles[row-1][col];
+			tiles[row][col].candy = above.getCandy();
+			above.candy = null;
+			row--;
+		}
+		
+		tiles[row][col].candy = Candy.random();
+	}
+	
 	public void update(float dt) {
-		check();
+		findMatches();
+		
+		Match m = new Match(matches);
+		ArrayList<Tile>[] sm = m.sort();
+		
+		for(int i=0;i<sm.length;i++) {
+			//for(Tile tile : sm[i]) pop(tile);
+		}
 	}
 	
 	public void draw(Graphics2D g) {
